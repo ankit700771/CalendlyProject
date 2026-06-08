@@ -11,3 +11,15 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+
+
+model User {
+  id Int @id @default(autoincrement())
+  email String @unique
+  name String
+  createdAt DateTime @default(now())
+  UpdatedAt DateTime @updatedAt
+
+  @@map("users") //Now in DB the table will be called "users" instead of "User"
+}
+
