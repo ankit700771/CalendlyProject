@@ -15,3 +15,9 @@ export async function findUserById(req: Request, res: Response) {
         res.status(404).json({ message: "User not found" });
     }
 }
+
+export async function createUser(req: Request, res: Response) {
+    console.log(req.body);
+    res.json({});
+}
+
