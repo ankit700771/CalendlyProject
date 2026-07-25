@@ -1,23 +1,25 @@
 import { Request, Response } from "express";
-import { findAllUsersService, findUserByIdService } from "../services/users.service.js";
+import { findAllUsersService, findUserByIdService, createUserService } from "../services/users.service.js";
+import { sendSuccess } from "../utils/api-response.js";
+import { notFound } from "../utils/api-error.js";
 
 export async function findAllUsers(_req: Request, res: Response) {
     const users = await findAllUsersService();
-    res.json(users);
+    sendSuccess(res, users);
 }
 
 export async function findUserById(req: Request, res: Response) {
     const id = parseInt(req.params.id as any);
     const user = await findUserByIdService(id);
     if (user) {
-        res.json(user);
+        sendSuccess(res, user);
     } else {
-        res.status(404).json({ message: "User not found" });
+        notFound('User not found')
     }
 }
 
 export async function createUser(req: Request, res: Response) {
-    console.log(req.body);
-    res.json({});
+    const newUser = await createUserService(req.body);
+    sendSuccess(res, newUser, 201, 'User created successfully');
 }
 
