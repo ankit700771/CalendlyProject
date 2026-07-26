@@ -29,6 +29,7 @@ model EventType {
   hostId              Int
   title               String
   description         String?
+  slug                String
   durationMinutes     Int
   isActive            Boolean  @default(true)
   locationType        String   @default("online")
@@ -40,5 +41,6 @@ model EventType {
 
   host User @relation(fields: [hostId], references: [id], onDelete: Cascade)
 
+  @@unique([hostId, slug]) //This will ensure that the combination of hostId and slug is unique in the database
   @@map("event_types") //Now in DB the table will be called "event_types" instead of "EventType"
 }
