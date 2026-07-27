@@ -1,7 +1,7 @@
 import { CreateUserDto } from "../dtos/user.dtos.js";
 import { getAll, getById, findByEmail, createUser, updateUser, remove } from "../repositories/user.repository.js";
 import { notFound } from "../utils/api-error.js";
-
+import slug from "slug";
 
 export async function findAllUsersService() {
   const users = await getAll();
@@ -22,7 +22,9 @@ export async function createUserService(data: CreateUserDto) {
     throw notFound('User already exists');
   }
 
-  return createUser(data);
+  const slugPassed = data.slug ?? slug(data.name, { lower: true });
+
+  return createUser({ ...data , slug: slugPassed });
 }
 
 export async function updateUserService(id: number, data: Partial<CreateUserDto>) {

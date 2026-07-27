@@ -1,5 +1,7 @@
+import { sl } from 'zod/locales';
 import { prisma } from '../config/database.js';
 import { CreateUserDto, UpdateUserDto } from '../dtos/user.dtos.js';
+import slug from 'slug';
 
 export async function getAll() {
     const users = await prisma.user.findMany();
@@ -20,7 +22,7 @@ export async function findByEmail(email: string) {
     return user;
 }
 
-export async function createUser(data: CreateUserDto) {
+export async function createUser(data: CreateUserDto & { slug: string }) {
     const user = await prisma.user.create({
         data,
     });
